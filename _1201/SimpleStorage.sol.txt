@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;// any version above 0.8.7 could run this
+
+contract SimpleStorage {
+    struct Person {
+        string name;
+        int number;
+    }
+
+    // should be public if you want to access this in the child contract
+    Person public person;
+
+    // to be overriten by the child contract   --- need a "virtual" term
+    function setPerson(string memory name, int number) public virtual{
+        person = Person(name, number);
+    }
+
+    function getPerson() public view returns (Person memory) {
+        return person;
+    }
+}

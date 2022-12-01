@@ -1,0 +1,12 @@
+// SPDX-License-Identifier:MIT
+pragma solidity ^0.8.7;// any version above 0.8.7 could run this
+
+import "./SimpleStorage.sol";
+
+// the inherite feature --- contract xxx is xxx 
+contract ExtraStorage is SimpleStorage {
+    // to override a function in the parent contract   --- need a "override" term
+    function setPerson(string memory name, int number) public override {
+        person = Person(name, number + 100);
+    }
+}
