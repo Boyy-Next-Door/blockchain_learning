@@ -1,0 +1,37 @@
+// SPDX-License-Identifier:MIT
+pragma solidity ^0.8.7;
+
+contract FundMe {
+    struct Funder {
+        address funderAddress;
+        uint256 ethStored;
+        bool isUsed;
+    }
+
+    uint public mininumUsd = 50 * 1e18;     // to fit WEI
+
+    mapping(address => Funder) public funderMap;
+
+    function getByAddress() public view returns (Funder memory) {
+        return funderMap[msg.sender];
+    }
+
+    function fund() public payable returns (string memory) {
+        require(convertToUsd(msg.value) >= mininumUsd, "Didn't send enough! ");
+        
+        Funder memory funder = funderMap[msg.sender];
+        if (funder.isUsed) {
+            funder.ethStored += msg.value;
+            funderMap[msg.sender] = funder;
+        } else {
+            funderMap[msg.sender] = Funder(msg.sender, msg.value, true);
+        }
+
+        return "You paid!";
+    }
+
+    function convertToUsd(uint256 value) private pure returns(uint256) {
+        uint convertRate = 3000 * 1e18;        // 3000 USD per ETH 
+        return value * convertRate;
+    }
+}
