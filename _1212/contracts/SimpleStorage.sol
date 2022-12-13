@@ -17,8 +17,8 @@ contract SimpleStorage {
   mapping(string => Person) personList;
   int256 mapSize = 0;
 
-  function retrieve(string memory name) public view returns (Person memory) {
-    return personList[name];
+  function retrieve(string memory name) public view returns (uint256) {
+    return personList[name].favorateNumber;
   }
 
   function addPerson(string memory name, uint256 number) public {
